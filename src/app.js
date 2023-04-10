@@ -39,13 +39,13 @@ app.post("/tweets", (req, res) => {
       return res.status(400).send("Todos os campos são obrigatórios!");
     }
   
-    tweets.unshift({ username, tweet });
+    tweets.unshift({ username, tweet, avatar: users[users.length-1].avatar });
     res.status(201).send("OK!");
 });
 
 app.get("/tweets", (req, res) => {
+    const tenTweets = [];
     if (tweets.length > 10) {
-        const tenTweets = [];
         for (let i = tweets.length - 10; i < tweets.length; i++) {
           const { username, tweet } = tweets[i];
           const avatar = users.find((u) => u.username === username).avatar;
