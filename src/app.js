@@ -43,4 +43,17 @@ app.post("/tweets", (req, res) => {
     res.status(201).send("OK!");
 });
 
+app.get("/tweets", (req, res) => {
+    if (tweets.length > 10) {
+        const tenTweets = [];
+        for (let i = tweets.length - 10; i < tweets.length; i++) {
+          const { username, tweet } = tweets[i];
+          const avatar = users.find((u) => u.username === username).avatar;
+          tenTweets.push({ username, avatar, tweet });
+        }
+        return res.send(tenTweets);
+      }
+      res.send(tweets);
+    });
+
 app.listen(5000, () => console.log("server online"));
