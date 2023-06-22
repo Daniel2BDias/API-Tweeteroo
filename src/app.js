@@ -38,8 +38,8 @@ app.post("/tweets", (req, res) => {
     if (!username || !tweet || !tweetString || !usernameString) {
       return res.status(400).send("Todos os campos são obrigatórios!");
     }
-  
-    tweets.unshift({ username, tweet, avatar: users[0].avatar });
+    let avatar = users.find((u)=> u.username === username ? u.avatar : null)
+    tweets.unshift({ username, tweet, avatar: avatar.avatar });
     res.status(201).send("OK!");
 });
 
