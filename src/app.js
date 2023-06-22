@@ -1,10 +1,11 @@
-import express from 'express';
+import express, { json } from 'express';
 import cors from 'cors';
 
 
 const app = express();
-app.use(express.json());
+app.use(json());
 app.use(cors());
+
 
 const users = [];
 const tweets = [];
@@ -25,8 +26,7 @@ app.post("/sign-up", (req, res) => {
 });
 
 app.post("/tweets", (req, res) => {
-    const { tweet } = req.body;
-    const username = req.body.username;
+    const { tweet, username } = req.body;
   
     const isUserSigned = users.find((u) => u.username === username);
     if (!isUserSigned) {
@@ -46,5 +46,15 @@ app.post("/tweets", (req, res) => {
 app.get("/tweets", (req, res) => {
       res.send(tweets);
     });
+
+app.get("/tweets/:USERNAME", (req, res) => {
+        const { USERNAME } = req.params;
+
+        if(!users.find((u)=> u.username === USERNAME)){res.send([])}
+
+        const userTweets = tweets.filter((u, i)=> USERNAME === tweets[i].username)
+        res.send(userTweets)
+    });
+
 
 app.listen(5000, () => console.log("server online"));
