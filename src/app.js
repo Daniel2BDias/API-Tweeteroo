@@ -38,13 +38,13 @@ app.post("/tweets", (req, res) => {
     if (!username || !tweet || !tweetString || !usernameString) {
       return res.status(400).send("Todos os campos são obrigatórios!");
     }
-    let avatar = users.find((u)=> u.username === username ? u.avatar : null)
+    let avatar = users.find((u)=> u.username === username)
     tweets.unshift({ username, tweet, avatar: avatar.avatar });
     res.status(201).send("OK!");
 });
 
 app.get("/tweets", (req, res) => {
-      res.send(tweets);
+      res.send(tweets.slice(0, 10));
     });
 
 app.get("/tweets/:USERNAME", (req, res) => {
@@ -53,7 +53,7 @@ app.get("/tweets/:USERNAME", (req, res) => {
         if(!users.find((u)=> u.username === USERNAME)){res.send([])}
 
         const userTweets = tweets.filter((u, i)=> USERNAME === tweets[i].username)
-        res.send(userTweets)
+        res.status(200).send(userTweets.slice(0, 10))
     });
 
 
