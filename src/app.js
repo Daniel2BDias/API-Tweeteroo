@@ -21,7 +21,7 @@ app.post("/sign-up", (req, res) => {
     return res.status(400).send("Todos os campos são obrigatórios!");
     }
 
-    if(users.find(({username}) => username === username)) {
+    if(users.find((user) => user.username === username)) {
       return res.status(409).send("Nome de usuário já em uso, por favor, escolha outro!")
     }
 
@@ -75,7 +75,8 @@ app.get("/tweets/:USERNAME", (req, res) => {
         if(!users.find((u)=> u.username === USERNAME)){res.send([])}
 
         const userTweets = tweets.filter((u, i)=> USERNAME === tweets[i].username)
-        res.status(200).send(userTweets.slice(0, 10))
+
+        res.status(200).send(userTweets)
     });
 
 
