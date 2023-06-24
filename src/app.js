@@ -21,6 +21,10 @@ app.post("/sign-up", (req, res) => {
     return res.status(400).send("Todos os campos são obrigatórios!");
     }
 
+    if(users.find(({username}) => username === user)) {
+      return res.status(409).send("Nome de usuário já em uso, por favor, escolha outro!")
+    }
+
 
     users.push({username: user, avatar});
     res.status(201).send(req.body);
@@ -45,7 +49,20 @@ app.post("/tweets", (req, res) => {
 });
 
 app.get("/tweets", (req, res) => {
-      res.send(tweets.slice(0, 10));
+    const { Page } = req.query;
+
+    let start = 0;
+    let end = 10;
+
+    if(Page && tweets.length > 10) {
+      for(let i = 1; i <= Page; i++){
+        start+=10;
+        end+=10;
+      }
+
+      return res.send(tweets.slice(start, end))
+    }
+      res.send(tweets.slice(start, end));
     });
 
 app.get("/tweets/:USERNAME", (req, res) => {
