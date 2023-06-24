@@ -11,13 +11,13 @@ const users = [];
 const tweets = [];
 
 app.post("/sign-up", (req, res) => {
-    const { avatar } = req.body;
+    const { avatar, username } = req.body;
     const { user } = req.headers;
 
-    const usernameString = typeof user === "string";
+    const usernameString = typeof username === "string";
     const avatarString = typeof avatar === "string";
 
-    if ( !user || !avatar || !usernameString || !avatarString ) {
+    if ( !username || !avatar || !usernameString || !avatarString ) {
     return res.status(400).send("Todos os campos são obrigatórios!");
     }
 
