@@ -49,13 +49,15 @@ app.post("/tweets", (req, res) => {
 });
 
 app.get("/tweets", (req, res) => {
-    const { Page } = req.query;
+    const { page } = req.query;
 
     let start = 0;
     let end = 10;
 
-    if(Page && tweets.length > 10) {
-      for(let i = 1; i <= Page; i++){
+    if(page < 1) return res.status(400).send("BAD REQUEST");
+
+    if(page > 1) {
+      for(let i = 1; i < page; i++){
         start+=10;
         end+=10;
       }
