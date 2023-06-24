@@ -46,7 +46,7 @@ app.post("/tweets", (req, res) => {
       return res.status(400).send("Todos os campos são obrigatórios!");
     }
     let avatar = users.find((u)=> u.username === user)
-    tweets.unshift({ user, tweet, avatar: avatar.avatar });
+    tweets.unshift({ username: user, tweet, avatar: avatar.avatar });
     res.status(201).send("OK!");
 });
 
