@@ -19,11 +19,11 @@ app.post("/sign-up", (req, res) => {
 
     if ( !username || !avatar || !usernameIsString || !avatarIsString ) {
     return res.status(400).send("Todos os campos são obrigatórios!");
-    };
+    }
 
     if(users.find((user) => user.username === username)) {
       return res.status(409).send("Nome de usuário já em uso, por favor, escolha outro!")
-    };
+    }
 
 
     users.push({username, avatar});
@@ -38,13 +38,13 @@ app.post("/tweets", (req, res) => {
 
     if (!signedUp) {
       return res.status(401).send("UNAUTHORIZED");
-    };
+    }
   
     const usernameIsString = typeof user === "string";
     const tweetIsString = typeof tweet === "string";
     if (!user || !tweet || !tweetIsString || !usernameIsString) {
       return res.status(400).send("Todos os campos são obrigatórios!");
-    };
+    }
 
     const avatar = users.find((u)=> u.username === user);
 
@@ -64,7 +64,7 @@ app.get("/tweets", (req, res) => {
       for(let i = 1; i < page; i++){
         start+=10;
         end+=10;
-      };
+      }
 
       return res.send(tweets.slice(start, end));
     }
@@ -73,8 +73,6 @@ app.get("/tweets", (req, res) => {
 
 app.get("/tweets/:USERNAME", (req, res) => {
         const { USERNAME } = req.params;
-
-        if(!users.find((u)=> u.username === USERNAME)){ return res.send([]) };
 
         const userTweets = tweets.filter((u, i)=> USERNAME === tweets[i].username);
         
